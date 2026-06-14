@@ -62,9 +62,23 @@ export default function RootLayout({
               src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
               strategy="afterInteractive"
             />
-            <Script id="ga4" strategy="afterInteractive">
-              {`window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', '${gaId}');`}
-            </Script>
+            {/* Google tag (gtag.js) */}
+            <Script
+              src="https://www.googletagmanager.com/gtag/js?id=G-GGCMVTEKV9"
+              strategy="afterInteractive"
+            />
+            <Script
+              id="google-analytics"
+              strategy="afterInteractive"
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                  gtag('config', 'G-GGCMVTEKV9');
+                `,
+              }}
+            />
           </>
         ) : null}
         <Script id="local-business-schema" type="application/ld+json">
