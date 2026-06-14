@@ -5,7 +5,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://shubhamtraderssolar.com";
+export const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://shubham-traders.vercel.app";
 
 export function absoluteUrl(path = "") {
   return `${siteUrl}${path}`;
