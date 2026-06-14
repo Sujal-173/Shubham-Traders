@@ -1,0 +1,154 @@
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight, CheckCircle2, Phone, Sparkles } from "lucide-react";
+import { Card } from "@/components/ui/card";
+import { LinkButton } from "@/components/ui/button";
+import { SolarCalculator } from "@/components/solar-calculator";
+import { SectionHeading } from "@/components/sections/section-heading";
+import { brand, images, metrics, projects, reasons, services, testimonials, trustBar } from "@/lib/content";
+
+export default function HomePage() {
+  return (
+    <>
+      <section className="relative min-h-[calc(100vh-80px)] overflow-hidden bg-navy text-white">
+        <Image src={images.hero} alt="Utility scale solar farm drone view" fill priority sizes="100vw" className="object-cover opacity-45" />
+        <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/80 to-navy/20" />
+        <div className="container relative grid min-h-[calc(100vh-80px)] items-center py-16">
+          <div className="max-w-4xl">
+            <p className="mb-5 inline-flex rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-bold backdrop-blur">
+              {brand.tagline}
+            </p>
+            <h1 className="text-4xl font-black leading-tight tracking-tight md:text-7xl">Power Your Home, Business & Farm with Clean Solar Energy</h1>
+            <p className="mt-6 text-xl font-semibold text-white/85 md:text-2xl">550+ Customers | 3500+ KW Installed</p>
+            <div className="mt-8 flex flex-wrap gap-4">
+              <LinkButton href="/book-site-survey">Get Free Consultation</LinkButton>
+              <LinkButton href="/solar-calculator" variant="outline">Calculate Savings</LinkButton>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-white py-5">
+        <div className="container grid gap-3 sm:grid-cols-2 lg:grid-cols-6">
+          {trustBar.map((item) => (
+            <div key={item} className="flex items-center gap-2 rounded-lg bg-cloud px-3 py-3 text-sm font-bold text-navy">
+              <CheckCircle2 className="h-4 w-4 text-energy" />
+              {item}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="section bg-cloud">
+        <div className="container">
+          <div className="grid gap-4 md:grid-cols-4">
+            {metrics.map((metric) => (
+              <Card key={metric.label} className="p-6 text-center">
+                <p className="text-4xl font-black text-primary">{metric.value}</p>
+                <p className="mt-2 font-bold text-slate-600">{metric.label}</p>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section bg-white" id="calculator">
+        <div className="container">
+          <SolarCalculator />
+        </div>
+      </section>
+
+      <section className="section bg-cloud">
+        <div className="container">
+          <SectionHeading eyebrow="Solar EPC Services" title="One engineering partner for every solar project type." text="From residential rooftops to industrial-scale systems, Shubham Traders manages design, procurement, installation, documentation and after-sales support." />
+          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+            {services.map((service) => {
+              const Icon = service.icon;
+              return (
+                <Link key={service.slug} href={`/services/${service.slug}`} className="group overflow-hidden rounded-xl bg-white shadow-premium">
+                  <div className="relative h-44">
+                    <Image src={service.image} alt={service.title} fill sizes="(min-width: 1024px) 25vw, 50vw" className="object-cover transition duration-500 group-hover:scale-105" />
+                  </div>
+                  <div className="p-5">
+                    <Icon className="mb-4 h-8 w-8 text-solar" />
+                    <h3 className="text-xl font-black text-navy">{service.title}</h3>
+                    <p className="mt-2 text-sm leading-6 text-slate-600">{service.summary}</p>
+                    <span className="mt-4 inline-flex items-center gap-2 text-sm font-black text-primary">Explore <ArrowRight size={16} /></span>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="section bg-white">
+        <div className="container">
+          <SectionHeading eyebrow="Featured Projects" title="Built for serious energy users across Madhya Pradesh." text="Interactive project cards show the range of industrial, commercial and agricultural work delivered by Shubham Traders." />
+          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            {projects.map((project) => (
+              <Link href={`/projects/${project.slug}`} key={project.slug} className="group overflow-hidden rounded-xl border border-slate-200 bg-white shadow-premium">
+                <div className="relative h-56">
+                  <Image src={project.image} alt={project.title} fill sizes="(min-width: 1024px) 33vw, 100vw" className="object-cover transition duration-500 group-hover:scale-105" />
+                  <span className="absolute left-4 top-4 rounded-full bg-solar px-3 py-1 text-sm font-black text-navy">{project.capacity}</span>
+                </div>
+                <div className="p-5">
+                  <p className="text-sm font-bold uppercase tracking-wide text-primary">{project.type}</p>
+                  <h3 className="mt-2 text-xl font-black text-navy">{project.title}</h3>
+                  <p className="mt-2 text-sm text-slate-600">{project.location}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section bg-cloud">
+        <div className="container">
+          <SectionHeading eyebrow="Why Choose Us" title="Local execution with enterprise-grade process." align="center" />
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {reasons.map((reason) => {
+              const Icon = reason.icon;
+              return (
+                <Card key={reason.title} className="p-5">
+                  <Icon className="mb-4 h-8 w-8 text-energy" />
+                  <p className="font-black text-navy">{reason.title}</p>
+                </Card>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="section bg-white">
+        <div className="container">
+          <SectionHeading eyebrow="Testimonials" title="Proof from customers who trusted the process." text="Designed for Google review integration and video testimonials as the brand gathers more public review assets." />
+          <div className="grid gap-5 md:grid-cols-3">
+            {testimonials.map((item) => (
+              <Card key={item.name} className="p-6">
+                <Sparkles className="mb-4 h-7 w-7 text-solar" />
+                <p className="leading-7 text-slate-700">&quot;{item.quote}&quot;</p>
+                <p className="mt-5 font-black text-navy">{item.name}</p>
+                <p className="text-sm text-slate-500">{item.role}</p>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-primary py-16 text-white">
+        <div className="container grid items-center gap-8 md:grid-cols-[1fr_auto]">
+          <div>
+            <p className="mb-3 font-black uppercase tracking-[0.18em] text-solar">Ready to go solar?</p>
+            <h2 className="text-3xl font-black md:text-5xl">Book a free site survey and get a clear solar plan.</h2>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <LinkButton href="/book-site-survey">Book Free Site Survey</LinkButton>
+            <LinkButton href={`tel:${brand.phones[0].replace(/\s/g, "")}`} variant="outline"><Phone size={18} /> Talk To Expert</LinkButton>
+            <LinkButton href={`https://wa.me/${brand.whatsapp}`} variant="outline">WhatsApp Now</LinkButton>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
