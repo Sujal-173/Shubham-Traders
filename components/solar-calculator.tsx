@@ -68,7 +68,7 @@ export function SolarCalculator() {
         </div>
         <div className="mt-5 flex flex-wrap gap-3">
           <LinkButton href={`/book-site-survey?kw=${result.kw}&bill=${bill}`}>Get Site Survey</LinkButton>
-          <Button variant="secondary" onClick={() => window.location.href = `https://wa.me/917999858950?text=I want a ${result.kw} KW solar quote for ${city}`}>
+          <Button variant="secondary" onClick={() => window.location.href = `https://wa.me/919074103184?text=I want a ${result.kw} KW solar quote for ${city}`}>
             WhatsApp Result
           </Button>
         </div>

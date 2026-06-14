@@ -21,7 +21,7 @@ export const brand = {
   phones: ["+91 79998 58950", "+91 90741 03184"],
   email: "Shubhamsolarau@gmail.com",
   instagram: "@au_shubham_solar",
-  whatsapp: "917999858950"
+  whatsapp: "919074103184"
 };
 
 export const navItems = [
