@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import { SectionHeading } from "@/components/sections/section-heading";
 import { projects } from "@/lib/content";
 
-export const metadata = { title: "Case Studies" };
+export const metadata = { title: "Case Studies", description: "Solar project case studies showing savings, ROI and execution details by Shubham Traders in Madhya Pradesh." };
 
 export default function CaseStudiesPage() {
   return (

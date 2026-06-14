@@ -4,7 +4,7 @@ import { LeadForm } from "@/components/lead-form";
 import { SectionHeading } from "@/components/sections/section-heading";
 import { brand } from "@/lib/content";
 
-export const metadata = { title: "Contact" };
+export const metadata = { title: "Contact", description: "Contact Shubham Traders for solar consultation. Call, WhatsApp or visit our office in Kasrawad, Khargone, Madhya Pradesh." };
 
 export default function ContactPage() {
   return (

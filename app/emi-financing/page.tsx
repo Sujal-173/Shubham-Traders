@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import { LinkButton } from "@/components/ui/button";
 import { SectionHeading } from "@/components/sections/section-heading";
 
-export const metadata = { title: "EMI and Financing" };
+export const metadata = { title: "EMI and Financing", description: "Solar EMI and financing options for residential, commercial and industrial solar projects in Madhya Pradesh." };
 
 export default function EmiFinancingPage() {
   const items = [

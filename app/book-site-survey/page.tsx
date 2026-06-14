@@ -2,7 +2,7 @@ import { Card } from "@/components/ui/card";
 import { LeadForm } from "@/components/lead-form";
 import { SectionHeading } from "@/components/sections/section-heading";
 
-export const metadata = { title: "Book Site Survey" };
+export const metadata = { title: "Book Site Survey", description: "Book a free site survey with Shubham Traders. Get a practical solar proposal for your property in Madhya Pradesh." };
 
 export default function BookSiteSurveyPage() {
   return (

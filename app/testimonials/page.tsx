@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import { SectionHeading } from "@/components/sections/section-heading";
 import { testimonials } from "@/lib/content";
 
-export const metadata = { title: "Testimonials" };
+export const metadata = { title: "Testimonials", description: "Customer testimonials and reviews for Shubham Traders solar EPC services in Madhya Pradesh." };
 
 export default function TestimonialsPage() {
   return (

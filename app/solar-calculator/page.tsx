@@ -1,7 +1,7 @@
 import { SolarCalculator } from "@/components/solar-calculator";
 import { SectionHeading } from "@/components/sections/section-heading";
 
-export const metadata = { title: "Solar Calculator" };
+export const metadata = { title: "Solar Calculator", description: "Calculate solar system size, government subsidy, savings and payback period for your property in Madhya Pradesh." };
 
 export default function SolarCalculatorPage() {
   return (

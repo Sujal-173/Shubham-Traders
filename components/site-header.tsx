@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { Menu, Phone, X } from "lucide-react";
 import { useState } from "react";
@@ -12,31 +13,25 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-navy/95 text-white backdrop-blur">
       <div className="container flex h-20 items-center justify-between gap-6">
-        {/* <Link href="/" className="flex items-center gap-3">
-            <img
-    src="https://res.cloudinary.com/dbkrxzzv1/image/upload/q_auto/f_auto/v1781405126/Generated_Image_June_14_2026_-_8_13AM_2_v18fbj.png"
-    alt="Shubham Traders Logo"
-    className="h-12 w-12 object-contain"
-  />
-            <span className="block text-lg font-black">{brand.name}</span>
-            <span className="block text-xs text-white/70">Solar EPC Company</span>
-        </Link> */}
         <Link href="/" className="flex items-center gap-3">
           <span className="relative h-11 w-auto bg-white  rounded-md  ">
-            <img
+            <Image
               src="https://res.cloudinary.com/dbkrxzzv1/image/upload/q_auto/f_auto/v1781406652/ChatGPT_Image_Jun_14_2026_08_40_16_AM_aqwdyk.png"
               alt="Shubham Traders"
+              width={64}
+              height={64}
               className="h-16 w-auto object-contain relative -top-2"
             />
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-6 lg:flex">
+        <nav className="hidden items-center gap-6 lg:flex" aria-label="Main navigation">
           {navItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
               className="text-sm font-semibold text-white/80 transition hover:text-white"
+              aria-label={`Navigate to ${item.label}`}
             >
               {item.label}
             </Link>
@@ -47,6 +42,7 @@ export function SiteHeader() {
           <a
             className="flex items-center gap-2 text-sm font-bold"
             href={`tel:${brand.phones[0].replace(/\s/g, "")}`}
+            aria-label={`Call ${brand.phones[0]}`}
           >
             <Phone size={17} />
             {brand.phones[0]}
@@ -57,7 +53,8 @@ export function SiteHeader() {
         <button
           className="focus-ring lg:hidden"
           onClick={() => setOpen((value) => !value)}
-          aria-label="Toggle menu"
+          aria-label="Toggle mobile menu"
+          aria-expanded={open}
         >
           {open ? <X /> : <Menu />}
         </button>
@@ -65,13 +62,14 @@ export function SiteHeader() {
 
       {open ? (
         <div className="border-t border-white/10 bg-navy px-4 py-5 lg:hidden">
-          <nav className="grid gap-3">
+          <nav className="grid gap-3" aria-label="Mobile navigation">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 className="rounded-lg px-3 py-3 font-semibold text-white/85"
                 onClick={() => setOpen(false)}
+                aria-label={`Navigate to ${item.label}`}
               >
                 {item.label}
               </Link>

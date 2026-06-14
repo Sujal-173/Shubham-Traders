@@ -4,7 +4,7 @@ import { LinkButton } from "@/components/ui/button";
 import { SectionHeading } from "@/components/sections/section-heading";
 import { brand, images, metrics, reasons } from "@/lib/content";
 
-export const metadata = { title: "About Us" };
+export const metadata = { title: "About Us", description: "About Shubham Traders - A Madhya Pradesh solar EPC company delivering end-to-end solar solutions for homes, businesses, industries and farms." };
 
 export default function AboutPage() {
   return (

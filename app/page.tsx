@@ -11,7 +11,16 @@ export default function HomePage() {
   return (
     <>
       <section className="relative min-h-[calc(100vh-80px)] overflow-hidden bg-navy text-white">
-        <Image src={images.hero} alt="Utility scale solar farm drone view" fill priority sizes="100vw" className="object-cover opacity-45" />
+        <Image 
+          src={images.hero} 
+          alt="Utility scale solar farm drone view" 
+          fill 
+          priority 
+          sizes="100vw" 
+          className="object-cover opacity-45"
+          placeholder="blur"
+          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwC3gAAAAB//Z"
+        />
         <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/80 to-navy/20" />
         <div className="container relative grid min-h-[calc(100vh-80px)] items-center py-16">
           <div className="max-w-4xl">
@@ -67,7 +76,7 @@ export default function HomePage() {
               return (
                 <Link key={service.slug} href={`/services/${service.slug}`} className="group overflow-hidden rounded-xl bg-white shadow-premium">
                   <div className="relative h-44">
-                    <Image src={service.image} alt={service.title} fill sizes="(min-width: 1024px) 25vw, 50vw" className="object-cover transition duration-500 group-hover:scale-105" />
+                    <Image src={service.image} alt={service.title} fill sizes="(min-width: 1024px) 25vw, 50vw" className="object-cover transition duration-500 group-hover:scale-105" loading="lazy" />
                   </div>
                   <div className="p-5">
                     <Icon className="mb-4 h-8 w-8 text-solar" />
@@ -89,7 +98,7 @@ export default function HomePage() {
             {projects.map((project) => (
               <Link href={`/projects/${project.slug}`} key={project.slug} className="group overflow-hidden rounded-xl border border-slate-200 bg-white shadow-premium">
                 <div className="relative h-56">
-                  <Image src={project.image} alt={project.title} fill sizes="(min-width: 1024px) 33vw, 100vw" className="object-cover transition duration-500 group-hover:scale-105" />
+                  <Image src={project.image} alt={project.title} fill sizes="(min-width: 1024px) 33vw, 100vw" className="object-cover transition duration-500 group-hover:scale-105" loading="lazy" />
                   <span className="absolute left-4 top-4 rounded-full bg-solar px-3 py-1 text-sm font-black text-navy">{project.capacity}</span>
                 </div>
                 <div className="p-5">

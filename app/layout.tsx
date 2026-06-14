@@ -70,8 +70,11 @@ export default function RootLayout({
         <Script id="local-business-schema" type="application/ld+json">
           {JSON.stringify(localBusinessSchema)}
         </Script>
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:rounded-lg focus:bg-solar focus:px-4 focus:py-2 focus:text-navy focus:font-bold">
+          Skip to main content
+        </a>
         <SiteHeader />
-        <main>{children}</main>
+        <main id="main-content">{children}</main>
         <SiteFooter />
       </body>
     </html>

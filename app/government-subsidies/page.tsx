@@ -3,7 +3,7 @@ import Link from "next/link";
 import { SectionHeading } from "@/components/sections/section-heading";
 import { subsidyPages } from "@/lib/content";
 
-export const metadata = { title: "Government Subsidies" };
+export const metadata = { title: "Government Subsidies", description: "Learn about solar subsidies, net metering, PM Surya Ghar Yojana, PM Kusum Yojana and financing options in Madhya Pradesh." };
 
 export default function GovernmentSubsidiesPage() {
   return (

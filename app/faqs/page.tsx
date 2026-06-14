@@ -2,7 +2,7 @@ import { Card } from "@/components/ui/card";
 import { SectionHeading } from "@/components/sections/section-heading";
 import { faqs } from "@/lib/content";
 
-export const metadata = { title: "FAQs" };
+export const metadata = { title: "FAQs", description: "Frequently asked questions about solar systems, subsidies, net metering and installation in Madhya Pradesh." };
 
 export default function FaqsPage() {
   const faqSchema = {

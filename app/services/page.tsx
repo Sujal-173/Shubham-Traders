@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { SectionHeading } from "@/components/sections/section-heading";
 import { services } from "@/lib/content";
 
-export const metadata = { title: "Services" };
+export const metadata = { title: "Services", description: "Solar EPC services for residential, commercial, industrial and agricultural customers across Madhya Pradesh." };
 
 export default function ServicesPage() {
   return (
