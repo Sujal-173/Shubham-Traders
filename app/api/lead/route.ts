@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { Resend } from "resend";
 
 // Simple in-memory rate limiting (for production, use Redis or similar)
 const rateLimit = new Map<string, { count: number; resetTime: number }>();
@@ -54,7 +53,6 @@ export async function POST(request: Request) {
     }
 
     // Sanitize and validate inputs
-    const sanitizedName = sanitizeInput(String(lead.name || ""));
     const sanitizedPhone = sanitizeInput(String(lead.phone || ""));
     const sanitizedEmail = lead.email ? sanitizeInput(String(lead.email)) : "";
 
@@ -66,27 +64,9 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Invalid email address." }, { status: 400 });
     }
 
-    const resendKey = process.env.RESEND_API_KEY;
-    const to = process.env.LEAD_TO_EMAIL || "Shubhamsolarau@gmail.com";
-
-    if (resendKey) {
-      const resend = new Resend(resendKey);
-      await resend.emails.send({
-        from: "Shubham Traders Website <leads@shubhamtraderssolar.com>",
-        to,
-        subject: `New solar lead: ${sanitizedName}`,
-        text: Object.entries({
-          name: sanitizedName,
-          phone: sanitizedPhone,
-          email: sanitizedEmail,
-          ...Object.fromEntries(
-            Object.entries(lead).filter(([key]) => 
-!['name', 'phone', 'email'].includes(key))
-          )
-        }).map(([key, value]) => `${key}: ${value}`).join("\n")
-      });
-    }
-
+    // Email sending is now handled client-side via EmailJS
+    // This API route can be used for additional validation or logging if needed
+    
     return NextResponse.json({ ok: true });
   } catch {
     return NextResponse.json({ error: "Failed to process lead submission" }, { status: 500 });

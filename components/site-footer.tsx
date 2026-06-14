@@ -37,7 +37,7 @@ export function SiteFooter() {
             <a className="flex gap-2" href={`tel:${brand.phones[1].replace(/\s/g, "")}`}><Phone size={17} />{brand.phones[1]}</a>
             <a className="flex gap-2" href={`mailto:${brand.email}`}><Mail size={17} />{brand.email}</a>
             <p className="flex gap-2"><MapPin size={17} />{brand.location}</p>
-            <p className="flex gap-2"><Instagram size={17} />{brand.instagram}</p>
+            <a href="https://www.instagram.com/au_shubham_solar/" className="flex gap-2"><Instagram size={17} />{brand.instagram}</a>
           </div>
         </div>
       </div>

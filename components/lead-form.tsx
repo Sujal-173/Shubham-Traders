@@ -1,21 +1,50 @@
 "use client";
 
 import { useState } from "react";
+import emailjs from "@emailjs/browser";
 import { Button } from "@/components/ui/button";
 import { Input, Label, Select, Textarea } from "@/components/ui/field";
 
 export function LeadForm({ source = "Website Lead Form" }: { source?: string }) {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
-  async function submit(formData: FormData) {
+  async function submit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
     setStatus("loading");
-    formData.set("source", source);
-    const response = await fetch("/api/lead", { method: "POST", body: formData });
-    setStatus(response.ok ? "success" : "error");
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    
+    const templateParams = {
+      name: formData.get("name") as string,
+      phone: formData.get("phone") as string,
+      email: formData.get("email") as string || "",
+      projectType: formData.get("projectType") as string || "Residential Solar",
+      city: formData.get("city") as string || "",
+      message: formData.get("message") as string || "",
+      source,
+      to_email: "Shubhamsolarau@gmail.com"
+    };
+
+    try {
+      const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+      const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+      const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+
+      if (!publicKey || !serviceId || !templateId) {
+        throw new Error("EmailJS configuration missing");
+      }
+
+      await emailjs.send(serviceId, templateId, templateParams, publicKey);
+      setStatus("success");
+      form.reset();
+    } catch {
+      setStatus("error");
+    }
   }
 
   return (
-    <form action={submit} className="grid gap-4">
+    <form onSubmit={submit} className="grid gap-4">
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
           <Label>Name</Label>

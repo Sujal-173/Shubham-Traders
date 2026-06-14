@@ -41,11 +41,11 @@ export function SiteHeader() {
         <div className="hidden items-center gap-3 lg:flex">
           <a
             className="flex items-center gap-2 text-sm font-bold"
-            href={`tel:${brand.phones[1].replace(/\s/g, "")}`}
-            aria-label={`Call ${brand.phones[1]}`}
+            href={`tel:${brand.phones[0].replace(/\s/g, "")}`}
+            aria-label={`Call ${brand.phones[0]}`}
           >
             <Phone size={17} />
-            {brand.phones[1]}
+            {brand.phones[0]}
           </a>
           <LinkButton href="/book-site-survey">Book Survey</LinkButton>
         </div>

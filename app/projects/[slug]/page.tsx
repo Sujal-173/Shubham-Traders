@@ -3,42 +3,20 @@ import { notFound } from "next/navigation";
 import { Card } from "@/components/ui/card";
 import { LinkButton } from "@/components/ui/button";
 import { projects } from "@/lib/content";
-import { client, previewClient } from "@/sanity/lib/client";
-import { PROJECT_QUERY, PROJECTS_QUERY } from "@/sanity/lib/queries";
-import { urlFor } from "@/sanity/lib/image";
-
-type CmsProject = {
-  _id: string;
-  title?: string;
-  slug?: string;
-  location?: string;
-  clientName?: string;
-  capacity?: string;
-  projectType?: string;
-  description?: string;
-  savings?: string;
-  roi?: string;
-  featuredImage?: unknown;
-};
 
 export async function generateStaticParams() {
-  try {
-    const cmsProjects = await previewClient.fetch<CmsProject[]>(PROJECTS_QUERY);
-    return [...projects.map((project) => ({ slug: project.slug })), ...cmsProjects.map((project) => ({ slug: project.slug || project._id }))];
-  } catch {
-    return projects.map((project) => ({ slug: project.slug }));
-  }
+  return projects.map((project) => ({ slug: project.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const project = await getProject(slug);
+  const project = projects.find((item) => item.slug === slug);
   return { title: project?.title || "Project", description: `${project?.capacity} ${project?.type} solar project` };
 }
 
 export default async function ProjectDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const project = await getProject(slug);
+  const project = projects.find((item) => item.slug === slug);
   if (!project) notFound();
 
   return (
@@ -62,26 +40,4 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
       </div>
     </section>
   );
-}
-
-async function getProject(slug: string) {
-  try {
-    const project = await client.fetch<CmsProject | null>(PROJECT_QUERY, { slug }, { next: { revalidate: 60 } });
-    if (project) {
-      return {
-        title: project.title || "Solar Project",
-        slug: project.slug || project._id,
-        location: project.location || "Madhya Pradesh",
-        client: project.clientName || "Shubham Traders Client",
-        capacity: project.capacity || "Solar EPC",
-        type: project.projectType || "Solar",
-        savings: project.savings || project.description || "Optimized electricity cost through solar generation",
-        roi: project.roi || "Project-specific ROI after site survey",
-        image: project.featuredImage ? urlFor(project.featuredImage).width(1400).height(1000).url() : projects[0].image
-      };
-    }
-  } catch {
-    return projects.find((item) => item.slug === slug);
-  }
-  return projects.find((item) => item.slug === slug);
 }
