@@ -10,6 +10,9 @@ import { absoluteUrl } from "@/lib/utils";
 import { brand } from "@/lib/content";
 
 export const metadata: Metadata = {
+  verification: {
+    google: "K3ryoJP69AMuKwoOGsfPziZ-GlQrkmhMclWCReiY-fo",
+  },
   metadataBase: new URL(absoluteUrl()),
   title: {
     default: "Shubham Traders | Solar EPC Company in Madhya Pradesh",
