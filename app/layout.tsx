@@ -5,6 +5,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { absoluteUrl } from "@/lib/utils";
 import { brand } from "@/lib/content";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
   metadataBase: new URL(absoluteUrl()),
@@ -90,6 +91,7 @@ export default function RootLayout({
         <SiteHeader />
         <main id="main-content">{children}</main>
         <SiteFooter />
+        <SpeedInsights />
       </body>
     </html>
   );
