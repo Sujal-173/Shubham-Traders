@@ -4,31 +4,14 @@ import { useMemo, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Input, Label, Select } from "@/components/ui/field";
 import { Button, LinkButton } from "@/components/ui/button";
-import { calculatorDefaults } from "@/lib/content";
+import { computeSolarEstimate } from "@/lib/solar-calc";
 
 export function SolarCalculator() {
   const [bill, setBill] = useState(5000);
   const [propertyType, setPropertyType] = useState("Residential");
   const [city, setCity] = useState("Kasrawad");
 
-  const result = useMemo(() => {
-    const monthlyUnits = bill / calculatorDefaults.tariff;
-    const kw = Math.max(1, Math.ceil((monthlyUnits * 12) / calculatorDefaults.annualGenerationPerKw));
-    const cost = kw * calculatorDefaults.costPerKw;
-    const subsidy = propertyType === "Residential" ? Math.min(kw * calculatorDefaults.subsidyPerKw, 78000) : 0;
-    const annualSavings = Math.round(Math.min(bill * 12, kw * calculatorDefaults.annualGenerationPerKw * calculatorDefaults.tariff));
-    const netCost = cost - subsidy;
-    const payback = Math.max(1, Math.round((netCost / annualSavings) * 10) / 10);
-    return {
-      kw,
-      cost,
-      subsidy,
-      annualSavings,
-      monthlySavings: Math.round(annualSavings / 12),
-      payback,
-      co2: Math.round(kw * 1.2 * 10) / 10
-    };
-  }, [bill, propertyType]);
+  const result = useMemo(() => computeSolarEstimate(bill, propertyType), [bill, propertyType]);
 
   return (
     <Card className="grid gap-6 p-5 md:grid-cols-[0.95fr_1.05fr] md:p-8">

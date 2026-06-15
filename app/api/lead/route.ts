@@ -1,46 +1,15 @@
 import { NextResponse } from "next/server";
+import { checkRateLimit, sanitizeInput, validatePhone, validateEmail } from "@/lib/validation";
 
-// Simple in-memory rate limiting (for production, use Redis or similar)
-const rateLimit = new Map<string, { count: number; resetTime: number }>();
+const rateStore = new Map<string, { count: number; resetTime: number }>();
 const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
 const RATE_LIMIT_MAX_REQUESTS = 5;
 
-function checkRateLimit(ip: string): boolean {
-  const now = Date.now();
-  const record = rateLimit.get(ip);
-
-  if (!record || now > record.resetTime) {
-    rateLimit.set(ip, { count: 1, resetTime: now + RATE_LIMIT_WINDOW });
-    return true;
-  }
-
-  if (record.count >= RATE_LIMIT_MAX_REQUESTS) {
-    return false;
-  }
-
-  record.count++;
-  return true;
-}
-
-function sanitizeInput(input: string): string {
-  return input.trim().replace(/<script[^>]*>.*?<\/script>/gi, '').slice(0, 500);
-}
-
-function validatePhone(phone: string): boolean {
-  const phoneRegex = /^[+]?[(]?[0-9]{1,4}[)]?[-\s.]?[(]?[0-9]{1,4}[)]?[-\s.]?[0-9]{1,9}$/;
-  return phoneRegex.test(phone.replace(/\s/g, ''));
-}
-
-function validateEmail(email: string): boolean {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-}
-
 export async function POST(request: Request) {
   try {
-    const ip = request.headers.get('x-forwarded-for') || 'unknown';
-    
-    if (!checkRateLimit(ip)) {
+    const ip = request.headers.get("x-forwarded-for") || "unknown";
+
+    if (!checkRateLimit(rateStore, ip, RATE_LIMIT_WINDOW, RATE_LIMIT_MAX_REQUESTS)) {
       return NextResponse.json({ error: "Too many requests. Please try again later." }, { status: 429 });
     }
 
@@ -52,7 +21,6 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Name and phone are required." }, { status: 400 });
     }
 
-    // Sanitize and validate inputs
     const sanitizedPhone = sanitizeInput(String(lead.phone || ""));
     const sanitizedEmail = lead.email ? sanitizeInput(String(lead.email)) : "";
 
@@ -64,9 +32,6 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Invalid email address." }, { status: 400 });
     }
 
-    // Email sending is now handled client-side via EmailJS
-    // This API route can be used for additional validation or logging if needed
-    
     return NextResponse.json({ ok: true });
   } catch {
     return NextResponse.json({ error: "Failed to process lead submission" }, { status: 500 });
