@@ -5,8 +5,12 @@ import emailjs from "@emailjs/browser";
 import { Button } from "@/components/ui/button";
 import { Input, Label, Select, Textarea } from "@/components/ui/field";
 
+const PHONE_RE = /^[+]?[(]?[0-9]{1,4}[)]?[-\s.]?[(]?[0-9]{1,4}[)]?[-\s.]?[0-9]{1,9}$/;
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 export function LeadForm({ source = "Website Lead Form" }: { source?: string }) {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -27,6 +31,19 @@ export function LeadForm({ source = "Website Lead Form" }: { source?: string }) 
     };
 
     try {
+      const phone = templateParams.phone.replace(/\s/g, "");
+      if (!PHONE_RE.test(phone)) {
+        setErrorMessage("Please enter a valid phone number.");
+        setStatus("error");
+        return;
+      }
+
+      if (templateParams.email && !EMAIL_RE.test(templateParams.email)) {
+        setErrorMessage("Please enter a valid email address.");
+        setStatus("error");
+        return;
+      }
+
       const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
       const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
       const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
@@ -37,8 +54,15 @@ export function LeadForm({ source = "Website Lead Form" }: { source?: string }) 
 
       await emailjs.send(serviceId, templateId, templateParams, publicKey);
       setStatus("success");
+      setErrorMessage(null);
       form.reset();
-    } catch {
+    } catch (error) {
+      console.error("Lead form submission failed:", error);
+      setErrorMessage(
+        error instanceof Error && error.message === "EmailJS configuration missing"
+          ? "Email service is not configured. Please call or WhatsApp us directly."
+          : "Something went wrong. Please call or WhatsApp us directly."
+      );
       setStatus("error");
     }
   }
@@ -76,7 +100,7 @@ export function LeadForm({ source = "Website Lead Form" }: { source?: string }) 
       </div>
       <Button disabled={status === "loading"}>{status === "loading" ? "Sending..." : "Request Consultation"}</Button>
       {status === "success" ? <p className="text-sm font-bold text-energy">Thanks. Shubham Traders will contact you shortly.</p> : null}
-      {status === "error" ? <p className="text-sm font-bold text-red-600">Something went wrong. Please call or WhatsApp us directly.</p> : null}
+      {status === "error" ? <p className="text-sm font-bold text-red-600">{errorMessage ?? "Something went wrong. Please call or WhatsApp us directly."}</p> : null}
     </form>
   );
 }

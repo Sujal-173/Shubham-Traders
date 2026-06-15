@@ -68,7 +68,12 @@ export async function POST(request: Request) {
     // This API route can be used for additional validation or logging if needed
     
     return NextResponse.json({ ok: true });
-  } catch {
-    return NextResponse.json({ error: "Failed to process lead submission" }, { status: 500 });
+  } catch (error) {
+    console.error("Lead submission error:", error);
+    const message =
+      error instanceof SyntaxError
+        ? "Malformed request body"
+        : "Failed to process lead submission";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
