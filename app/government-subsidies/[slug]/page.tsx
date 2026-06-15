@@ -1,37 +1,30 @@
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import { CheckCircle2 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { LinkButton } from "@/components/ui/button";
-import { subsidyPages, faqs } from "@/lib/content";
+import { PageHero } from "@/components/sections/page-hero";
+import { faqs, findBySlug, staticParamsFromSlugs, subsidyPages } from "@/lib/content";
 
 export function generateStaticParams() {
-  return subsidyPages.map((page) => ({ slug: page.slug }));
+  return staticParamsFromSlugs(subsidyPages);
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const page = subsidyPages.find((item) => item.slug === slug);
+  const page = findBySlug(subsidyPages, slug);
   return { title: page?.title || "Government Subsidy", description: page?.summary };
 }
 
 export default async function SubsidyDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const page = subsidyPages.find((item) => item.slug === slug);
+  const page = findBySlug(subsidyPages, slug);
   if (!page) notFound();
 
   return (
     <>
-      <section className="relative overflow-hidden bg-navy py-24 text-white">
-        <Image src={page.image} alt={page.title} fill priority sizes="100vw" className="object-cover opacity-35" />
-        <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/85 to-transparent" />
-        <div className="container relative max-w-4xl">
-          <p className="mb-3 font-black uppercase tracking-[0.18em] text-solar">Subsidy Guidance</p>
-          <h1 className="text-4xl font-black md:text-6xl">{page.title}</h1>
-          <p className="mt-5 text-xl leading-8 text-white/82">{page.summary}</p>
-          <LinkButton href="/book-site-survey" className="mt-8">Check Eligibility</LinkButton>
-        </div>
-      </section>
+      <PageHero image={page.image} imageAlt={page.title} eyebrow="Subsidy Guidance" title={page.title} description={page.summary}>
+        <LinkButton href="/book-site-survey" className="mt-8">Check Eligibility</LinkButton>
+      </PageHero>
       <section className="section bg-cloud">
         <div className="container grid gap-8 lg:grid-cols-[1fr_0.8fr]">
           <div>

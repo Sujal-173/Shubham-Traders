@@ -6,6 +6,7 @@ import { Menu, Phone, X } from "lucide-react";
 import { useState } from "react";
 import { brand, navItems } from "@/lib/content";
 import { LinkButton } from "@/components/ui/button";
+import { formatPhone } from "@/lib/utils";
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
@@ -41,7 +42,7 @@ export function SiteHeader() {
         <div className="hidden items-center gap-3 lg:flex">
           <a
             className="flex items-center gap-2 text-sm font-bold"
-            href={`tel:${brand.phones[0].replace(/\s/g, "")}`}
+            href={`tel:${formatPhone(brand.phones[0])}`}
             aria-label={`Call ${brand.phones[0]}`}
           >
             <Phone size={17} />

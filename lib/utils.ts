@@ -10,3 +10,12 @@ export const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://shubham-trad
 export function absoluteUrl(path = "") {
   return `${siteUrl}${path}`;
 }
+
+export function formatPhone(phone: string) {
+  return phone.replace(/\s/g, "");
+}
+
+export function whatsappUrl(number: string, text?: string) {
+  const base = `https://wa.me/${number}`;
+  return text ? `${base}?text=${encodeURIComponent(text)}` : base;
+}

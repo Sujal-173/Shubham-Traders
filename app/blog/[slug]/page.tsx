@@ -1,20 +1,20 @@
 import { notFound } from "next/navigation";
 import { LinkButton } from "@/components/ui/button";
-import { blogPosts } from "@/lib/content";
+import { blogPosts, findBySlug, staticParamsFromSlugs } from "@/lib/content";
 
 export async function generateStaticParams() {
-  return blogPosts.map((post) => ({ slug: post.slug }));
+  return staticParamsFromSlugs(blogPosts);
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const post = blogPosts.find((item) => item.slug === slug);
+  const post = findBySlug(blogPosts, slug);
   return { title: post?.title || "Blog", description: post?.excerpt };
 }
 
 export default async function BlogDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const post = blogPosts.find((item) => item.slug === slug);
+  const post = findBySlug(blogPosts, slug);
   if (!post) notFound();
 
   return (

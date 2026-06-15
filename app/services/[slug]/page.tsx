@@ -1,43 +1,35 @@
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import { CheckCircle2 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { LinkButton } from "@/components/ui/button";
 import { LeadForm } from "@/components/lead-form";
-import { services } from "@/lib/content";
+import { PageHero } from "@/components/sections/page-hero";
+import { findBySlug, services, staticParamsFromSlugs } from "@/lib/content";
 
 export function generateStaticParams() {
-  return services.map((service) => ({ slug: service.slug }));
+  return staticParamsFromSlugs(services);
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const service = services.find((item) => item.slug === slug);
+  const service = findBySlug(services, slug);
   return { title: service?.title || "Solar Service", description: service?.summary };
 }
 
 export default async function ServicePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const service = services.find((item) => item.slug === slug);
+  const service = findBySlug(services, slug);
   if (!service) notFound();
   const Icon = service.icon;
 
   return (
     <>
-      <section className="relative overflow-hidden bg-navy py-24 text-white">
-        <Image src={service.image} alt={service.title} fill priority sizes="100vw" className="object-cover opacity-35" />
-        <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/85 to-navy/30" />
-        <div className="container relative max-w-4xl">
-          <Icon className="mb-5 h-12 w-12 text-solar" />
-          <p className="mb-3 font-black uppercase tracking-[0.18em] text-solar">Solar EPC Service</p>
-          <h1 className="text-4xl font-black md:text-6xl">{service.title}</h1>
-          <p className="mt-5 text-xl leading-8 text-white/82">{service.summary}</p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <LinkButton href="/book-site-survey">Get Free Consultation</LinkButton>
-            <LinkButton href="/solar-calculator" variant="outline">Calculate Savings</LinkButton>
-          </div>
+      <PageHero image={service.image} imageAlt={service.title} eyebrow="Solar EPC Service" title={service.title} description={service.summary} prefix={<Icon className="mb-5 h-12 w-12 text-solar" />}>
+        <div className="mt-8 flex flex-wrap gap-3">
+          <LinkButton href="/book-site-survey">Get Free Consultation</LinkButton>
+          <LinkButton href="/solar-calculator" variant="outline">Calculate Savings</LinkButton>
         </div>
-      </section>
+      </PageHero>
       <section className="section bg-cloud">
         <div className="container grid gap-8 lg:grid-cols-[1fr_0.8fr]">
           <div>

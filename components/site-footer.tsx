@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Instagram, Mail, MapPin, Phone } from "lucide-react";
 import { brand, navItems, services } from "@/lib/content";
 import { LinkButton } from "@/components/ui/button";
+import { formatPhone, whatsappUrl } from "@/lib/utils";
 
 export function SiteFooter() {
   return (
@@ -20,7 +21,7 @@ export function SiteFooter() {
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <LinkButton href="/book-site-survey">Book Free Site Survey</LinkButton>
-            <LinkButton href={`https://wa.me/${brand.whatsapp}`} variant="outline">WhatsApp Now</LinkButton>
+            <LinkButton href={whatsappUrl(brand.whatsapp)} variant="outline">WhatsApp Now</LinkButton>
           </div>
         </div>
         <div>
@@ -33,8 +34,8 @@ export function SiteFooter() {
         <div>
           <p className="mb-4 font-black">Contact</p>
           <div className="grid gap-3 text-sm text-white/75">
-            <a className="flex gap-2" href={`tel:${brand.phones[0].replace(/\s/g, "")}`}><Phone size={17} />{brand.phones[0]}</a>
-            <a className="flex gap-2" href={`tel:${brand.phones[1].replace(/\s/g, "")}`}><Phone size={17} />{brand.phones[1]}</a>
+            <a className="flex gap-2" href={`tel:${formatPhone(brand.phones[0])}`}><Phone size={17} />{brand.phones[0]}</a>
+            <a className="flex gap-2" href={`tel:${formatPhone(brand.phones[1])}`}><Phone size={17} />{brand.phones[1]}</a>
             <a className="flex gap-2" href={`mailto:${brand.email}`}><Mail size={17} />{brand.email}</a>
             <p className="flex gap-2"><MapPin size={17} />{brand.location}</p>
             <a href="https://www.instagram.com/au_shubham_solar/" className="flex gap-2"><Instagram size={17} />{brand.instagram}</a>
