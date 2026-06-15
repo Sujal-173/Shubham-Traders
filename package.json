@@ -12,6 +12,7 @@
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
     "@next/third-parties": "^16.2.9",
+    "@vercel/speed-insights": "^2.0.0",
     "clsx": "^2.1.1",
     "framer-motion": "^12.23.12",
     "lucide-react": "^0.468.0",

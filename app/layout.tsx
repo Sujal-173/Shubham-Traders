@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import { GoogleTagManager } from "@next/third-parties/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import "./globals.css";
 
@@ -89,6 +90,7 @@ export default function RootLayout({
         </main>
 
         <SiteFooter />
+        <SpeedInsights />
       </body>
     </html>
   );
