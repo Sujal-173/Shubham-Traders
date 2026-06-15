@@ -12,13 +12,16 @@ export function SolarCalculator() {
   const [city, setCity] = useState("Kasrawad");
 
   const result = useMemo(() => {
-    const monthlyUnits = bill / calculatorDefaults.tariff;
+    const safeBill = Math.max(bill, 0);
+    const monthlyUnits = safeBill / calculatorDefaults.tariff;
     const kw = Math.max(1, Math.ceil((monthlyUnits * 12) / calculatorDefaults.annualGenerationPerKw));
     const cost = kw * calculatorDefaults.costPerKw;
     const subsidy = propertyType === "Residential" ? Math.min(kw * calculatorDefaults.subsidyPerKw, 78000) : 0;
-    const annualSavings = Math.round(Math.min(bill * 12, kw * calculatorDefaults.annualGenerationPerKw * calculatorDefaults.tariff));
+    const annualSavings = Math.round(Math.min(safeBill * 12, kw * calculatorDefaults.annualGenerationPerKw * calculatorDefaults.tariff));
     const netCost = cost - subsidy;
-    const payback = Math.max(1, Math.round((netCost / annualSavings) * 10) / 10);
+    const payback = annualSavings > 0
+      ? Math.max(1, Math.round((netCost / annualSavings) * 10) / 10)
+      : 0;
     return {
       kw,
       cost,
