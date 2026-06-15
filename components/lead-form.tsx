@@ -23,7 +23,7 @@ export function LeadForm({ source = "Website Lead Form" }: { source?: string }) 
       city: formData.get("city") as string || "",
       message: formData.get("message") as string || "",
       source,
-      to_email: "Shubhamsolarau@gmail.com"
+      to_email: process.env.NEXT_PUBLIC_LEAD_EMAIL || "Shubhamsolarau@gmail.com"
     };
 
     try {
