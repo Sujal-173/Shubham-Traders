@@ -190,3 +190,11 @@ export const images = {
 };
 
 export const iconMap = { Leaf };
+
+export function findBySlug<T extends { slug: string }>(items: T[], slug: string): T | undefined {
+  return items.find((item) => item.slug === slug);
+}
+
+export function staticParamsFromSlugs<T extends { slug: string }>(items: T[]) {
+  return items.map((item) => ({ slug: item.slug }));
+}

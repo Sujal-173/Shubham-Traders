@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Input, Label, Select } from "@/components/ui/field";
 import { Button, LinkButton } from "@/components/ui/button";
 import { calculatorDefaults } from "@/lib/content";
+import { whatsappUrl } from "@/lib/utils";
 
 export function SolarCalculator() {
   const [bill, setBill] = useState(5000);
@@ -12,13 +13,16 @@ export function SolarCalculator() {
   const [city, setCity] = useState("Kasrawad");
 
   const result = useMemo(() => {
-    const monthlyUnits = bill / calculatorDefaults.tariff;
+    const safeBill = Math.max(bill, 0);
+    const monthlyUnits = safeBill / calculatorDefaults.tariff;
     const kw = Math.max(1, Math.ceil((monthlyUnits * 12) / calculatorDefaults.annualGenerationPerKw));
     const cost = kw * calculatorDefaults.costPerKw;
     const subsidy = propertyType === "Residential" ? Math.min(kw * calculatorDefaults.subsidyPerKw, 78000) : 0;
-    const annualSavings = Math.round(Math.min(bill * 12, kw * calculatorDefaults.annualGenerationPerKw * calculatorDefaults.tariff));
+    const annualSavings = Math.round(Math.min(safeBill * 12, kw * calculatorDefaults.annualGenerationPerKw * calculatorDefaults.tariff));
     const netCost = cost - subsidy;
-    const payback = Math.max(1, Math.round((netCost / annualSavings) * 10) / 10);
+    const payback = annualSavings > 0
+      ? Math.max(1, Math.round((netCost / annualSavings) * 10) / 10)
+      : 0;
     return {
       kw,
       cost,
@@ -68,7 +72,7 @@ export function SolarCalculator() {
         </div>
         <div className="mt-5 flex flex-wrap gap-3">
           <LinkButton href={`/book-site-survey?kw=${result.kw}&bill=${bill}`}>Get Site Survey</LinkButton>
-          <Button variant="secondary" onClick={() => window.location.href = `https://wa.me/919074103184?text=I want a ${result.kw} KW solar quote for ${city}`}>
+          <Button variant="secondary" onClick={() => window.location.href = whatsappUrl("919074103184", `I want a ${result.kw} KW solar quote for ${city}`)}>
             WhatsApp Result
           </Button>
         </div>

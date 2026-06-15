@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import { GoogleTagManager } from "@next/third-parties/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import "./globals.css";
 
@@ -62,9 +63,7 @@ export default function RootLayout({
     <html lang="en-IN" suppressHydrationWarning>
       <body>
         {/* Google Tag Manager */}
-        {process.env.NEXT_PUBLIC_GTM_ID ? (
-          <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID} />
-        ) : null}
+<GoogleTagManager gtmId="GTM-M6SVJF85" />
 
         {/* Local Business Schema */}
         <Script
@@ -89,6 +88,7 @@ export default function RootLayout({
         </main>
 
         <SiteFooter />
+        <SpeedInsights />
       </body>
     </html>
   );

@@ -2,21 +2,21 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Card } from "@/components/ui/card";
 import { LinkButton } from "@/components/ui/button";
-import { projects } from "@/lib/content";
+import { findBySlug, projects, staticParamsFromSlugs } from "@/lib/content";
 
 export async function generateStaticParams() {
-  return projects.map((project) => ({ slug: project.slug }));
+  return staticParamsFromSlugs(projects);
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const project = projects.find((item) => item.slug === slug);
+  const project = findBySlug(projects, slug);
   return { title: project?.title || "Project", description: `${project?.capacity} ${project?.type} solar project` };
 }
 
 export default async function ProjectDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const project = projects.find((item) => item.slug === slug);
+  const project = findBySlug(projects, slug);
   if (!project) notFound();
 
   return (

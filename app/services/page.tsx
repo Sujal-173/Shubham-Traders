@@ -1,7 +1,6 @@
-import Image from "next/image";
-import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { SectionHeading } from "@/components/sections/section-heading";
+import { ImageCard } from "@/components/sections/image-card";
 import { services } from "@/lib/content";
 
 export const metadata = { title: "Services", description: "Solar EPC services for residential, commercial, industrial and agricultural customers across Madhya Pradesh." };
@@ -15,17 +14,12 @@ export default function ServicesPage() {
           {services.map((service) => {
             const Icon = service.icon;
             return (
-              <Link key={service.slug} href={`/services/${service.slug}`} className="group overflow-hidden rounded-xl bg-white shadow-premium">
-                <div className="relative h-64">
-                  <Image src={service.image} alt={service.title} fill sizes="50vw" className="object-cover transition duration-500 group-hover:scale-105" />
-                </div>
-                <div className="p-6">
-                  <Icon className="mb-4 h-8 w-8 text-solar" />
-                  <h2 className="text-2xl font-black text-navy">{service.title}</h2>
-                  <p className="mt-3 leading-7 text-slate-600">{service.summary}</p>
-                  <span className="mt-5 inline-flex items-center gap-2 font-black text-primary">View service <ArrowRight size={18} /></span>
-                </div>
-              </Link>
+              <ImageCard key={service.slug} href={`/services/${service.slug}`} image={service.image} imageAlt={service.title} imageSizes="50vw" imageHeight="h-64">
+                <Icon className="mb-4 h-8 w-8 text-solar" />
+                <h2 className="text-2xl font-black text-navy">{service.title}</h2>
+                <p className="mt-3 leading-7 text-slate-600">{service.summary}</p>
+                <span className="mt-5 inline-flex items-center gap-2 font-black text-primary">View service <ArrowRight size={18} /></span>
+              </ImageCard>
             );
           })}
         </div>
