@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Input, Label, Select } from "@/components/ui/field";
 import { Button, LinkButton } from "@/components/ui/button";
 import { calculatorDefaults } from "@/lib/content";
+import { whatsappUrl } from "@/lib/utils";
 
 export function SolarCalculator() {
   const [bill, setBill] = useState(5000);
@@ -68,7 +69,7 @@ export function SolarCalculator() {
         </div>
         <div className="mt-5 flex flex-wrap gap-3">
           <LinkButton href={`/book-site-survey?kw=${result.kw}&bill=${bill}`}>Get Site Survey</LinkButton>
-          <Button variant="secondary" onClick={() => window.location.href = `https://wa.me/919074103184?text=I want a ${result.kw} KW solar quote for ${city}`}>
+          <Button variant="secondary" onClick={() => window.location.href = whatsappUrl("919074103184", `I want a ${result.kw} KW solar quote for ${city}`)}>
             WhatsApp Result
           </Button>
         </div>

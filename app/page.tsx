@@ -1,10 +1,11 @@
 import Image from "next/image";
-import Link from "next/link";
-import { ArrowRight, CheckCircle2, Phone, Sparkles } from "lucide-react";
+import { ArrowRight, CheckCircle2, Sparkles } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { LinkButton } from "@/components/ui/button";
 import { SolarCalculator } from "@/components/solar-calculator";
 import { SectionHeading } from "@/components/sections/section-heading";
+import { CtaBanner } from "@/components/sections/cta-banner";
+import { ImageCard } from "@/components/sections/image-card";
 import { brand, images, metrics, projects, reasons, services, testimonials, trustBar } from "@/lib/content";
 
 export default function HomePage() {
@@ -74,17 +75,12 @@ export default function HomePage() {
             {services.map((service) => {
               const Icon = service.icon;
               return (
-                <Link key={service.slug} href={`/services/${service.slug}`} className="group overflow-hidden rounded-xl bg-white shadow-premium">
-                  <div className="relative h-44">
-                    <Image src={service.image} alt={service.title} fill sizes="(min-width: 1024px) 25vw, 50vw" className="object-cover transition duration-500 group-hover:scale-105" loading="lazy" />
-                  </div>
-                  <div className="p-5">
-                    <Icon className="mb-4 h-8 w-8 text-solar" />
-                    <h3 className="text-xl font-black text-navy">{service.title}</h3>
-                    <p className="mt-2 text-sm leading-6 text-slate-600">{service.summary}</p>
-                    <span className="mt-4 inline-flex items-center gap-2 text-sm font-black text-primary">Explore <ArrowRight size={16} /></span>
-                  </div>
-                </Link>
+                <ImageCard key={service.slug} href={`/services/${service.slug}`} image={service.image} imageAlt={service.title} imageSizes="(min-width: 1024px) 25vw, 50vw" imageHeight="h-44">
+                  <Icon className="mb-4 h-8 w-8 text-solar" />
+                  <h3 className="text-xl font-black text-navy">{service.title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-slate-600">{service.summary}</p>
+                  <span className="mt-4 inline-flex items-center gap-2 text-sm font-black text-primary">Explore <ArrowRight size={16} /></span>
+                </ImageCard>
               );
             })}
           </div>
@@ -96,17 +92,11 @@ export default function HomePage() {
           <SectionHeading eyebrow="Featured Projects" title="Built for serious energy users across Madhya Pradesh." text="Interactive project cards show the range of industrial, commercial and agricultural work delivered by Shubham Traders." />
           <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {projects.map((project) => (
-              <Link href={`/projects/${project.slug}`} key={project.slug} className="group overflow-hidden rounded-xl border border-slate-200 bg-white shadow-premium">
-                <div className="relative h-56">
-                  <Image src={project.image} alt={project.title} fill sizes="(min-width: 1024px) 33vw, 100vw" className="object-cover transition duration-500 group-hover:scale-105" loading="lazy" />
-                  <span className="absolute left-4 top-4 rounded-full bg-solar px-3 py-1 text-sm font-black text-navy">{project.capacity}</span>
-                </div>
-                <div className="p-5">
-                  <p className="text-sm font-bold uppercase tracking-wide text-primary">{project.type}</p>
-                  <h3 className="mt-2 text-xl font-black text-navy">{project.title}</h3>
-                  <p className="mt-2 text-sm text-slate-600">{project.location}</p>
-                </div>
-              </Link>
+              <ImageCard key={project.slug} href={`/projects/${project.slug}`} image={project.image} imageAlt={project.title} imageSizes="(min-width: 1024px) 33vw, 100vw" badge={<span className="absolute left-4 top-4 rounded-full bg-solar px-3 py-1 text-sm font-black text-navy">{project.capacity}</span>}>
+                <p className="text-sm font-bold uppercase tracking-wide text-primary">{project.type}</p>
+                <h3 className="mt-2 text-xl font-black text-navy">{project.title}</h3>
+                <p className="mt-2 text-sm text-slate-600">{project.location}</p>
+              </ImageCard>
             ))}
           </div>
         </div>
@@ -145,19 +135,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="bg-primary py-16 text-white">
-        <div className="container grid items-center gap-8 md:grid-cols-[1fr_auto]">
-          <div>
-            <p className="mb-3 font-black uppercase tracking-[0.18em] text-solar">Ready to go solar?</p>
-            <h2 className="text-3xl font-black md:text-5xl">Book a free site survey and get a clear solar plan.</h2>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            <LinkButton href="/book-site-survey">Book Free Site Survey</LinkButton>
-            <LinkButton href={`tel:${brand.phones[0].replace(/\s/g, "")}`} variant="outline"><Phone size={18} /> Talk To Expert</LinkButton>
-            <LinkButton href={`https://wa.me/${brand.whatsapp}`} variant="outline">WhatsApp Now</LinkButton>
-          </div>
-        </div>
-      </section>
+      <CtaBanner />
     </>
   );
 }
