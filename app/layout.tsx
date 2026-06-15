@@ -62,7 +62,9 @@ export default function RootLayout({
     <html lang="en-IN" suppressHydrationWarning>
       <body>
         {/* Google Tag Manager */}
-        <GoogleTagManager gtmId="GTM-M6SVJF85" />
+        {process.env.NEXT_PUBLIC_GTM_ID && (
+          <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID} />
+        )}
 
         {/* Local Business Schema */}
         <Script
